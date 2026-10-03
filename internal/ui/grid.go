@@ -14,7 +14,7 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 
-	"wallplay/internal/wallhaven"
+	"deskwall/internal/wallhaven"
 )
 
 // thumbCellSize is the target size of each grid cell. NewGridWrap reflows

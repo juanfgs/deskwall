@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"wallplay/internal/app"
+	"deskwall/internal/app"
 )
 
 func main() {

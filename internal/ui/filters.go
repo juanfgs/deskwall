@@ -5,7 +5,7 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 
-	"wallplay/internal/wallhaven"
+	"deskwall/internal/wallhaven"
 )
 
 // categoryNames and purityNames map positions to their API labels.

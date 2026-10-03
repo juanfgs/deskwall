@@ -1,5 +1,5 @@
-APP      := wallplay
-PKG      := wallplay
+APP      := deskwall
+PKG      := deskwall
 VERSION  := 0.1.0
 DIST     := dist
 

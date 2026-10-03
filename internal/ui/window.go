@@ -8,7 +8,7 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 
-	"wallplay/internal/wallhaven"
+	"deskwall/internal/wallhaven"
 )
 
 // elasticCurve is an ease-out curve with a slight overshoot for a
@@ -26,7 +26,7 @@ type MainWindow struct {
 // NewMainWindow creates and configures the main application window with a
 // filter bar, a wallpaper grid, and an expandable image detail view.
 func NewMainWindow(app fyne.App, client wallhaven.Client) *MainWindow {
-	w := &MainWindow{Window: app.NewWindow("Wallplay")}
+	w := &MainWindow{Window: app.NewWindow("Deskwall")}
 	w.SetMaster()
 	w.Resize(fyne.NewSize(1200, 700))
 

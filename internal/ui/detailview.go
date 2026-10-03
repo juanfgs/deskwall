@@ -18,7 +18,7 @@ import (
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 
-	"wallplay/internal/wallhaven"
+	"deskwall/internal/wallhaven"
 )
 
 // ExpandedView shows a large wallpaper image with an info sidebar.

@@ -5,12 +5,12 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 
-	"wallplay/internal/ui"
-	"wallplay/internal/wallhaven"
+	"deskwall/internal/ui"
+	"deskwall/internal/wallhaven"
 )
 
 // AppID is the reverse-DNS identifier used by Fyne for storage and metadata.
-const AppID = "dev.wallplay.Wallplay"
+const AppID = "dev.deskwall.Deskwall"
 
 // App wraps a fyne.App and manages its windows and lifecycle.
 type App struct {
