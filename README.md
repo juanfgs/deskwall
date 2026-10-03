@@ -1,10 +1,10 @@
 # Deskwall
 
-A desktop wallpaper browser and applier built with Go and [Fyne](https://fyne.io).
+A cross-platform desktop wallpaper browser and applier built with Go and [Fyne](https://fyne.io).
 
 Deskwall lets you search [wallhaven.cc](https://wallhaven.cc) for wallpapers,
 preview them in a grid, expand individual images with metadata, download them
-to your XDG Pictures directory, and apply them as your GNOME wallpaper — all
+to your Pictures directory, and apply them as your desktop wallpaper — all
 from a single native app.
 
 ![Grid view](docs/grid.png)
@@ -17,8 +17,9 @@ from a single native app.
 - **Grid view** with asynchronously-loaded thumbnails and pagination
 - **Expandable preview** — click a thumbnail to grow the full image with an elastic animation
 - **Metadata sidebar** — resolution, category, tags, uploader, and more
-- **Download** to the XDG Pictures directory (GNOME/KDE default backgrounds folder)
-- **Apply** — download and set as the GNOME wallpaper via `gsettings`
+- **Download** to the platform-appropriate Pictures directory
+- **Apply** — download and set as the desktop wallpaper (Linux/GNOME via `gsettings`, macOS via `osascript`, Windows via `SystemParametersInfoW`)
+- **Cross-platform** — Linux, macOS, and Windows
 - **Native** — built with Fyne, no web wrapper, no Electron
 
 ## Prerequisites
@@ -37,8 +38,11 @@ sudo dnf install mesa-libGL-devel mesa-libEGL-devel \
                  libXcursor-devel libXi-devel libXxf86vm-devel
 ```
 
-Runtime: `gsettings` (from `dconf-cli` or `gnome-settings-daemon`) for the
-Apply feature; the rest needs only the userland GL/X11 libraries.
+For cross-compiling to Windows from Linux:
+
+```sh
+sudo apt install gcc-mingw-w64-x86-64
+```
 
 ## Project structure
 
@@ -48,7 +52,8 @@ deskwall/
 ├── internal/
 │   ├── app/                   # Fyne application wiring and lifecycle
 │   ├── ui/                    # Fyne windows, widgets, filters, grid, detail view
-│   └── wallhaven/             # Wallhaven API client and DTOs
+│   ├── wallhaven/             # Wallhaven API client and DTOs
+│   └── platform/             # Cross-platform wallpaper setting + Pictures dir
 ├── assets/                    # Desktop entry, icons
 ├── docs/                      # Screenshots
 ├── nfpm.yaml                  # Debian (.deb) packaging config
@@ -67,13 +72,15 @@ make vet         # run go vet
 make test        # run tests
 ```
 
-## Debian package
+## Packaging
+
+### Debian
 
 Packaging uses [nfpm](https://nfpm.goreleaser.com/), a single Go binary that
 produces `.deb` (and `.rpm`/`.apk`) packages without the full Debian toolchain.
 
 ```sh
-make install-tools    # installs nfpm
+make install-tools    # installs nfpm and fyne CLI
 make deb              # builds binary + .deb into dist/
 ```
 
@@ -81,6 +88,13 @@ Install the resulting package:
 
 ```sh
 sudo apt install ./dist/deskwall_0.1.0_amd64.deb
+```
+
+### Windows (cross-compile from Linux)
+
+```sh
+make windows        # builds dist/deskwall.exe
+make windows-pkg    # builds + packages with GLFW DLLs into a .zip
 ```
 
 ## License
