@@ -47,7 +47,8 @@ type WallpaperGrid struct {
 	lastPage     int
 	currentPage  int
 	loading      bool
-	onPageChange  func()
+	onPageChange func()
+	OnSelect     func(wallhaven.Wallpaper)
 }
 
 // NewWallpaperGrid constructs a grid ready to receive Search calls.
@@ -164,7 +165,7 @@ func (g *WallpaperGrid) loadPage(req wallhaven.SearchRequest, reset bool) {
 
 		cells := make([]fyne.CanvasObject, len(resp.Data))
 		for i, wp := range resp.Data {
-			cell := newThumbCell(g)
+			cell := newThumbCell(g, wp)
 			cells[i] = cell
 			g.loadThumbnail(cell.img, wp)
 		}
@@ -187,7 +188,8 @@ func (g *WallpaperGrid) notifyPageChange() {
 	}
 }
 
-// selectCell deselects the current selection and marks c as selected.
+// selectCell deselects the current selection and marks c as selected,
+// then fires the OnSelect callback (if set) with the cell's wallpaper.
 func (g *WallpaperGrid) selectCell(c *thumbCell) {
 	if g.selectedCell == c {
 		return
@@ -197,6 +199,9 @@ func (g *WallpaperGrid) selectCell(c *thumbCell) {
 	}
 	g.selectedCell = c
 	c.setSelected(true)
+	if g.OnSelect != nil {
+		g.OnSelect(c.wallpaper)
+	}
 }
 
 // loadThumbnail fetches the small thumbnail for a wallpaper in a background
@@ -244,15 +249,17 @@ func (g *WallpaperGrid) CreateRenderer() fyne.WidgetRenderer {
 type thumbCell struct {
 	widget.BaseWidget
 
-	img      *canvas.Image
-	selected bool
-	grid     *WallpaperGrid
+	img       *canvas.Image
+	selected  bool
+	grid      *WallpaperGrid
+	wallpaper wallhaven.Wallpaper
 }
 
-func newThumbCell(grid *WallpaperGrid) *thumbCell {
+func newThumbCell(grid *WallpaperGrid, wp wallhaven.Wallpaper) *thumbCell {
 	c := &thumbCell{
-		img:  canvas.NewImageFromResource(nil),
-		grid: grid,
+		img:       canvas.NewImageFromResource(nil),
+		grid:      grid,
+		wallpaper: wp,
 	}
 	c.img.FillMode = canvas.ImageFillCover
 	c.ExtendBaseWidget(c)
