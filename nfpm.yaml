@@ -1,0 +1,43 @@
+# nfpm configuration for building .deb packages.
+# Install nfpm:  go install github.com/goreleaser/nfpm/v2/cmd/nfpm@latest
+# Build package: make deb   (or: nfpm pkg --packager deb --target dist/)
+# Docs: https://nfpm.goreleaser.com/
+
+name: wallplay
+arch: amd64
+platform: linux
+version: 0.1.0
+section: utils
+priority: optional
+maintainer: juanfgs <juanfgs@example.com>
+description: |
+  Wallplay - a GTK4 desktop application.
+  Built with Go and gotk4.
+vendor: wallplay
+homepage: https://github.com/juanfgs/wallplay
+license: MIT
+
+# Fyne renders via GLFW + OpenGL; runtime needs GL and X11 userland.
+depends:
+  - libgl1
+  - libegl1
+  - libx11-6
+  - libxrandr2
+  - libxinerama1
+  - libxcursor1
+  - libxi6
+  - libxxf86vm1
+
+# Files to ship with the package.
+contents:
+  - src: dist/wallplay
+    dst: /usr/bin/wallplay
+  - src: assets/wallplay.desktop
+    dst: /usr/share/applications/wallplay.desktop
+  - src: assets/wallplay.svg
+    dst: /usr/share/icons/hicolor/scalable/apps/wallplay.svg
+
+# Scripts run during package lifecycle (optional).
+# scripts:
+#   postinstall: scripts/postinstall.sh
+#   preremove: scripts/preremove.sh

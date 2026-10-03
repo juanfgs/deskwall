@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Wallplay
+Comment=Wallplay GTK4 application
+Exec=wallplay
+Icon=wallplay
+Terminal=false
+Categories=Utility;Graphics;
+StartupNotify=true
