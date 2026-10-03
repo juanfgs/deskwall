@@ -51,8 +51,12 @@ func TestPrevPage(t *testing.T) {
 func TestValues(t *testing.T) {
 	t.Parallel()
 	r := NewSearchRequest("foo")
+
 	got := r.Values()
 	if got.Get("q") != "foo" {
 		t.Errorf("expected query to be %s got %v", "foo", got.Get("q"))
+	}
+	if got.Get("page") != "1" {
+		t.Errorf("expected query to be %s got %s", "1", got.Get("page"))
 	}
 }

@@ -30,7 +30,12 @@ func buildUrl(endpoint string, query string) string {
 }
 
 func (c Client) Search(q string) (SearchResponse, error) {
-	var r SearchRequest = NewSearchRequest(q)
+	return c.SearchWithRequest(NewSearchRequest(q))
+}
+
+// SearchWithRequest performs a search using the given SearchRequest, allowing
+// callers to control the page number and (future) filter parameters.
+func (c Client) SearchWithRequest(r SearchRequest) (SearchResponse, error) {
 	var response SearchResponse
 	queryParams := r.Values()
 	if c.ApiKey != "" {
