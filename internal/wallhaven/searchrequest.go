@@ -52,5 +52,31 @@ func (r SearchRequest) Values() url.Values {
 	v := url.Values{}
 	v.Set("q", r.Query)
 	v.Set("page", strconv.Itoa(r.Page))
+	if r.Categories != nil {
+		v.Set("categories", encodeToggle(r.Categories))
+	}
+	if r.Purity != "" {
+		v.Set("purity", r.Purity)
+	}
+	if r.Sorting != "" {
+		v.Set("sorting", r.Sorting)
+	}
+	if r.Order != "" {
+		v.Set("order", r.Order)
+	}
 	return v
+}
+
+// encodeToggle joins a slice of "0"/"1" flags into a single string, e.g.
+// ["1","0","1"] -> "101".
+func encodeToggle(flags []string) string {
+	out := ""
+	for _, f := range flags {
+		if f == "1" {
+			out += "1"
+		} else {
+			out += "0"
+		}
+	}
+	return out
 }

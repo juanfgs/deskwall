@@ -68,6 +68,12 @@ func (g *WallpaperGrid) Search(query string) {
 	g.loadPage(wallhaven.NewSearchRequest(query), true)
 }
 
+// SearchWithRequest starts a new search using the given request (with filters)
+// at page 1.
+func (g *WallpaperGrid) SearchWithRequest(req wallhaven.SearchRequest) {
+	g.loadPage(req, true)
+}
+
 // NextPage loads the next page if one exists and we're not already loading.
 func (g *WallpaperGrid) NextPage() {
 	g.mu.Lock()
